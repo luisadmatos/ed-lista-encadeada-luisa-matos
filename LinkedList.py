@@ -9,14 +9,14 @@ class LinkedList:
         self.head = None
         self._size = 0
 
-    def append(self, elem):
-        if self.head:                   # Tem pelo menos um elemento?
+    def insert_end(self, elem):
+        if self.head:                 
             pointer = self.head         
-            while(pointer.next):        # Percorrer a lista até next.None
+            while(pointer.next):        
                 pointer = pointer.next
-            pointer.next = Node(elem)   # Adiciona um novo elemento
+            pointer.next = Node(elem)   
         else:
-            self.head = Node(elem)      # Adiciona o primeiro elemento
+            self.head = Node(elem)      
         self._size = self._size + 1
 
     def __len__(self):
@@ -50,19 +50,7 @@ class LinkedList:
         new_node = Node(data)
         new_node.next = self.head
         self.head = new_node
-
-    def insert_end(self, data) -> None:
-        new_node = Node(data)
-
-        if self.head is None:
-            new_node.next = self.head
-            self.head = new_node
-        else:
-            last_node = self.head
-            while last_node != None:
-                last_node = last_node.next
-            last_node.next = new_node
-            new_node.next = None
+        self._size = self._size + 1
 
     def remove(self, data) -> None:
         curr = self.head
@@ -70,24 +58,55 @@ class LinkedList:
         found = False
 
         while curr and not found:
-            if curr.self.data == data:
+            if curr.data == data:
                 found = True
             else:
                 prev = curr
                 curr = curr.next
 
-        if curr is None:
+        if not found:
+            return
+
+        if prev is None:
             self.head = curr.next
         else:
             prev.next = curr.next
+        self._size = self._size - 1
+
+    def search(self, data):
+        pointer = self.head
+        while pointer:
+            if pointer.data == data:
+                return True
+            pointer = pointer.next
+        return False
+
+    def print_list(self):
+        pointer = self.head
+        while pointer:
+            print(pointer.data, end=" -> ")
+            pointer = pointer.next
+        print("None")
+
+    def size(self):
+        return self._size
+
+    def is_empty(self):
+        return self._size == 0
 
 
+lista = LinkedList()
+print(lista.is_empty())
+lista.insert_end(5)
+lista.insert_end(7)
+lista.insert_end(9)
 
-
-lista = LinkList()
-lista.append(5)
-lista.append(7)
-lista.append(9)
-print(lista[1])
-lista[1] = 20
-print(lista[1])
+lista.insert_beginning(1)
+lista.print_list()        
+print(lista.size())        
+print(lista.search(7))            
+print(lista.search(99))          
+lista.remove(7)
+lista.print_list()                      
+print(lista.size())       
+print(lista.is_empty())    
